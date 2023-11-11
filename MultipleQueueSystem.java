@@ -2,10 +2,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 class MultipleQueueSystem {
     List<Queue<Patient>> queues;
     ServicePoint[] servicePoints;
+    Random random;
 
     public MultipleQueueSystem(int queueCount, int servicePointCount) {
         queues = new ArrayList<>();
@@ -51,6 +53,21 @@ class MultipleQueueSystem {
             }
     
             timeElapsed++;
+        }
+    }
+    //doing distribution, but still testing
+    public void simulatePatientArrivals(int queueIndex, double lambda, int maxArrivalTime) {
+        int arrivalTime = 0;
+        int patient_id = 1;
+        while (arrivalTime < maxArrivalTime) {
+            Patient patient = new Patient(patient_id);
+            enqueuePatient(queueIndex, patient);
+            try {
+                Thread.sleep((long) (-Math.log(1 - random.nextDouble()) / lambda));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            arrivalTime += 1;
         }
     }
     
