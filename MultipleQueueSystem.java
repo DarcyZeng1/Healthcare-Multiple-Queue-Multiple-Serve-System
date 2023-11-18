@@ -59,22 +59,28 @@ class MultipleQueueSystem {
         }
     }
 
-    public void printStatistics() {
+    public String printStatistics() {
+        StringBuilder statistics = new StringBuilder();
         double totalWaitingTime = 0;
         double totalServingTime = 0;
 
         for (Patient patient : servedPatients) {
             totalWaitingTime += patient.waitingTime;
             totalServingTime += patient.serviceTime;
-            System.out.println("Patient " + patient.id + " - Waiting Time: " + patient.waitingTime + " seconds, Serving Time: " + patient.serviceTime + " seconds");
+            statistics.append("Patient ").append(patient.id)
+                    .append(" - Waiting Time: ").append(patient.waitingTime).append(" seconds, ")
+                    .append("Serving Time: ").append(patient.serviceTime).append(" seconds")
+                    .append(System.lineSeparator());
         }
 
         double totalSystemTime = totalWaitingTime + totalServingTime;
         double averageWaitingTime = totalWaitingTime / servedPatients.size();
         double averageServingTime = totalServingTime / servedPatients.size();
 
-        System.out.println("Total System Time: " + totalSystemTime + " seconds");
-        System.out.println("Average Waiting Time: " + averageWaitingTime + " seconds");
-        System.out.println("Average Serving Time: " + averageServingTime + " seconds");
+        statistics.append("Total System Time: ").append(totalSystemTime).append(" seconds").append(System.lineSeparator());
+        statistics.append("Average Waiting Time: ").append(averageWaitingTime).append(" seconds").append(System.lineSeparator());
+        statistics.append("Average Serving Time: ").append(averageServingTime).append(" seconds").append(System.lineSeparator());
+
+        return statistics.toString();
     }
 }
